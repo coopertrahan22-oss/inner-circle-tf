@@ -315,7 +315,7 @@
       position: fixed;
       inset: 0;
       background: rgba(10,10,10,0.98);
-      z-index: 999;
+      z-index: 1001;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -703,7 +703,10 @@
 
     @media (max-width: 768px) {
       .about-grid { grid-template-columns: 1fr; }
-      .about-image-wrap { display: none; }
+      .about-image-wrap { display: block; }
+      .about-image { aspect-ratio: 4/3; }
+      .about-image-accent { display: none; }
+      .about-image-badge { bottom: 12px; right: 12px; padding: 14px 16px; }
       .about-stats { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 400px) {
@@ -2149,8 +2152,12 @@ var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","
     const mobileLinks = mobileMenu.querySelectorAll('.mobile-menu-link, .btn');
 
     hamburger.addEventListener('click', () => {
-      mobileMenu.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      if (mobileMenu.classList.contains('open')) {
+        closeMenu();
+      } else {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
     });
     function closeMenu() {
       mobileMenu.classList.remove('open');
