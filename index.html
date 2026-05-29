@@ -1953,9 +1953,11 @@
 
         <!-- Form -->
         <div class="reveal reveal-delay-2">
-          <form class="contact-form" id="contactForm" name="book-session" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate aria-label="Book a session">
-            <input type="hidden" name="form-name" value="book-session">
-            <input type="hidden" name="bot-field" style="display:none">
+          <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate aria-label="Book a session">
+            <input type="hidden" name="access_key" value="afb68f3e-bb51-4cfa-ad2b-7914124b4d68">
+            <input type="hidden" name="subject" value="New Session Request — Inner Circle Training Facility">
+            <input type="hidden" name="from_name" value="Inner Circle Website">
+            <input type="checkbox" name="botcheck" style="display:none">
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" for="firstName">First Name</label>
@@ -2203,10 +2205,10 @@ var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","
     }, { threshold: 0.5 });
     counters.forEach(c => counterObserver.observe(c));
 
-    // ── Contact form: simulated submission ──
+    // ── Contact form: Web3Forms submission ──
     const form    = document.getElementById('contactForm');
     const success = document.getElementById('formSuccess');
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       // Basic validation
       const required = form.querySelectorAll('[required]');
@@ -2225,11 +2227,24 @@ var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","
       btn.textContent = 'Sending...';
       btn.disabled = true;
 
-      // Simulate async submission
-      setTimeout(() => {
-        form.style.display = 'none';
-        success.classList.add('visible');
-      }, 1200);
+      try {
+        const data = new FormData(form);
+        const res  = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.style.display = 'none';
+          success.classList.add('visible');
+        } else {
+          btn.textContent = 'Try Again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Try Again';
+        btn.disabled = false;
+      }
     });
 
     // ── Smooth anchor scroll with nav offset ──
