@@ -514,6 +514,14 @@
       text-transform: uppercase;
       margin-top: 2px;
     }
+    .hero-badge:hover .hero-badge-inner {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 8px rgba(201,168,76,0.25), 0 0 0 20px rgba(201,168,76,0.1);
+    }
+    .hero-badge .hero-badge-inner {
+      transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+      cursor: pointer;
+    }
 
     .hero-scroll {
       position: absolute;
@@ -1477,12 +1485,12 @@
     </div>
 
     <!-- FREE badge -->
-    <div class="hero-badge" aria-hidden="true">
+    <a href="#contact" class="hero-badge" aria-label="Book your free first session">
       <div class="hero-badge-inner">
         <span class="hero-badge-free">FREE</span>
         <span class="hero-badge-sub">First Session</span>
       </div>
-    </div>
+    </a>
 
     <div class="hero-scroll" aria-hidden="true">
       <div class="hero-scroll-line"></div>
