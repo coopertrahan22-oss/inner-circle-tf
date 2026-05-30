@@ -525,9 +525,11 @@
 
     .hero-scroll {
       position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: fit-content;
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -1383,6 +1385,66 @@
     .form-success-sub {
       font-size: 0.9rem;
       color: var(--gray-light);
+    }
+
+    /* ═══════════════════════════════════════════
+       MOBILE OPTIMIZATIONS
+    ═══════════════════════════════════════════ */
+
+    /* Safe area — iPhone notch / home indicator */
+    .nav { padding-top: env(safe-area-inset-top, 0); }
+
+    @media (max-width: 600px) {
+      /* Hero — tighten layout, stack CTAs, bigger tap targets */
+      .hero-ctas {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .hero-ctas .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 52px;
+        font-size: 0.95rem;
+      }
+      .hero-desc { display: none; }
+
+      /* Buttons — minimum touch target */
+      .btn { min-height: 48px; }
+
+      /* Nav CTA hidden on mobile — hamburger handles it */
+      .nav-cta { display: none; }
+
+      /* Ticker — slightly faster on mobile */
+      .ticker-track { animation-duration: 20s; }
+
+      /* Form inputs — larger tap area, no zoom on focus */
+      .form-input {
+        padding: 16px;
+        font-size: 16px; /* prevents iOS auto-zoom */
+      }
+
+      /* Services — full width, no max-width constraint */
+      .services-grid { max-width: 100%; }
+
+      /* Testimonials — full width */
+      .testimonials-grid { max-width: 100%; }
+
+      /* CTA banner — tighter on small screens */
+      .cta-banner-btns {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .cta-banner-btns .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 52px;
+      }
+
+      /* Footer — simplify bottom row */
+      .footer-legal { gap: 12px; }
+
+      /* Gallery header stacks already — make button full width */
+      .gallery-header .btn { width: 100%; justify-content: center; }
     }
 
     /* ═══════════════════════════════════════════
