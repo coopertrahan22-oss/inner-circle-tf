@@ -1451,7 +1451,7 @@
   <!-- ═══════════ HERO ═══════════ -->
   <section class="hero" aria-labelledby="hero-headline">
     <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
-    <video class="hero-video" autoplay muted loop playsinline aria-hidden="true">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
       <source src="hero-video.m4v" type="video/mp4">
     </video>
     <div class="hero-overlay" aria-hidden="true"></div>
@@ -2185,6 +2185,23 @@ var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","
     }
     menuClose.addEventListener('click', closeMenu);
     mobileLinks.forEach(l => l.addEventListener('click', closeMenu));
+
+    // ── Hero video: force play on mobile ──
+    const heroVideo = document.getElementById('heroVideo');
+    if (heroVideo) {
+      heroVideo.muted = true;
+      const playPromise = heroVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay blocked — static bg image shows as fallback
+          heroVideo.style.opacity = '0';
+        });
+      }
+      // Retry on first user interaction if blocked
+      document.addEventListener('touchstart', () => {
+        heroVideo.play().catch(() => {});
+      }, { once: true });
+    }
 
     // ── Hero parallax ──
     const heroBg = document.getElementById('heroBg');
